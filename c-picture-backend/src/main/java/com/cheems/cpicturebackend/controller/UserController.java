@@ -53,6 +53,11 @@ public class UserController {
         return ResultUtils.success(userLoginVO);
     }
 
+    /**
+     * 获取登录用户
+     * @param request
+     * @return
+     */
     @GetMapping("/get/login")
     public BaseResponse<UserLoginVO> getCurrentUser( HttpServletRequest request) {
         UserLoginVO currentUser = userService.getCurrentUser(request);

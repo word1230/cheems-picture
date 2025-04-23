@@ -21,7 +21,21 @@
       <a-col flex="120px">
         <div class="user-login-status">
           <div v-if="loginUserStore.loginUser.id">
-              {{loginUserStore.loginUser.userName ?? '无名'}}
+<!--    todo 1.下拉菜单与用户名离得有点远  2.补充头像-->
+            <a-dropdown>
+              <div  >
+                {{loginUserStore.loginUser.userName ?? '无名'}}
+                <DownOutlined />
+              </div>
+              <template #overlay>
+                <a-menu>
+                  <a-menu-item>
+                    <a @click="handlerLogout">登出</a>
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+
           </div>
           <div v-else>
             <a-button type="primary" href="/user/login">登录</a-button>
@@ -32,13 +46,15 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { h, ref } from 'vue'
+import { computed, h, ref } from 'vue'
 import { HomeOutlined } from '@ant-design/icons-vue'
-import type { MenuProps } from 'ant-design-vue'
+import { type MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
+import { DownOutlined,UserOutlined } from '@ant-design/icons-vue';
+import { userLogOutUsingGet } from '@/api/userController.ts'
 
-const items = ref<MenuProps['items']>([
+const originitems = ref<MenuProps['items']>([
   {
     key: '/',
     icon: () => h(HomeOutlined),
@@ -46,10 +62,13 @@ const items = ref<MenuProps['items']>([
     title: '主页',
   },
   {
-    key: '/about',
-    label: '关于',
-    title: '关于',
+    key: "/admin/usermanager",
+    icon: () => h(UserOutlined),
+    label: '用户管理',
+    title: '用户管理',
   },
+
+
   {
     key: 'others',
     label: h('a', { href: 'https://github.com/word1230', target: '_blank' }, 'github'),
@@ -57,6 +76,23 @@ const items = ref<MenuProps['items']>([
   },
 ])
 
+
+const filterMenu = (menus = [] as MenuProps['items'])=> {
+
+  return menus?.filter((menu) => {
+    if(menu.key.startsWith('/admin')){
+      const loginUser = loginUserStore.loginUser;
+      if(!loginUser || loginUser.userRole !== 'admin'){
+        return false;
+      }
+    }
+    return true;
+  })
+}
+
+const items =  computed<MenuProps['items']>(()=>{
+  return filterMenu(originitems.value)
+})
 const router = useRouter()
 const current = ref<string[]>([''])
 
@@ -76,6 +112,23 @@ router.afterEach((to) => {
   current.value = [to.path]
 })
 
+const handlerLogout = async () => {
+  /**
+   * 1. 登出
+   * 2. 清空用户信息
+   */
+ const res= await userLogOutUsingGet()
+  if (res.data.code === 0) {
+    loginUserStore.setLoginUser({
+      userName: '未登录',
+    });
+    message.success("登出成功")
+    await  router.push('/user/login')
+  } else {
+    message.error("登出失败")
+  }
+
+}
 
 
 </script>
