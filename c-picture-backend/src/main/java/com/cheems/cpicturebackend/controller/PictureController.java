@@ -23,6 +23,7 @@ import com.cheems.cpicturebackend.model.dto.picture.PictureQueryRequest;
 import com.cheems.cpicturebackend.model.dto.picture.PictureUpdateRequest;
 import com.cheems.cpicturebackend.model.dto.picture.PictureUploadRequest;
 import com.cheems.cpicturebackend.model.entity.Picture;
+import com.cheems.cpicturebackend.model.entity.PictureTagCategory;
 import com.cheems.cpicturebackend.model.entity.User;
 import com.cheems.cpicturebackend.model.entity.UserAddRequest;
 import com.cheems.cpicturebackend.model.vo.PictureVO;
@@ -46,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -296,6 +298,17 @@ public class PictureController {
 
 
     }
+
+    @GetMapping("/tag_category")
+    public BaseResponse<PictureTagCategory> listPictureTagCategory() {
+        PictureTagCategory pictureTagCategory = new PictureTagCategory();
+        List<String> tagList = Arrays.asList("热门", "搞笑", "生活", "高清", "艺术", "校园", "背景", "简历", "创意");
+        List<String> categoryList = Arrays.asList("模板", "电商", "表情包", "素材", "海报");
+        pictureTagCategory.setTagList(tagList);
+        pictureTagCategory.setCategoryList(categoryList);
+        return ResultUtils.success(pictureTagCategory);
+    }
+
 
 
 }

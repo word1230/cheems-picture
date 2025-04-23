@@ -51,7 +51,7 @@ import { HomeOutlined } from '@ant-design/icons-vue'
 import { type MenuProps, message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useLoginUserStore } from '@/stores/useLoginUserStore.ts'
-import { DownOutlined,UserOutlined } from '@ant-design/icons-vue';
+import { DownOutlined,UserOutlined,PictureOutlined } from '@ant-design/icons-vue';
 import { userLogOutUsingGet } from '@/api/userController.ts'
 
 const originitems = ref<MenuProps['items']>([
@@ -67,6 +67,14 @@ const originitems = ref<MenuProps['items']>([
     label: '用户管理',
     title: '用户管理',
   },
+  {
+    key: "/addpicture",
+    icon: () => h(PictureOutlined ),
+    label: '新增图片',
+    title: '新增图片',
+  },
+
+
 
 
   {

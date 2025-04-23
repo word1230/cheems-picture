@@ -37,6 +37,11 @@ const router = createRouter({
         },
       ]
     },
+    {
+      path: '/addpicture',
+      name: 'addpicture',
+      component: () => import('@/pages/addPicturePage.vue'),
+    },
 
     {
       path: '/about',
