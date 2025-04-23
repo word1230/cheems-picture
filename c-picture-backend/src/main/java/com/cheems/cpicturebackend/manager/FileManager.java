@@ -57,6 +57,8 @@ public class FileManager {
         String uploadFilename = String.format("%s_%s.%s", DateUtil.formatDate(new Date()),uuid,FileUtil
                 .getSuffix(originalFilename));
         String uploadPath = String.format("/%s/%s", uploadPathPrefix,uploadFilename);
+
+        //3. 文件上传  并封装返回结果
         File file =null;
         try{
             file = File.createTempFile(uploadPath,null);

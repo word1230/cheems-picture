@@ -13,7 +13,7 @@ import java.util.List;
 public class PictureVO implements Serializable {
 
 
-    private String id;
+    private Long id;
 
 
     /**

@@ -50,6 +50,8 @@ public interface UserService extends IService<User> {
      */
     boolean UserLogout(HttpServletRequest request);
 
+
+
     QueryWrapper<User> getQueryWrapper(UserQueryRequest userQueryRequest);
 
     UserVO getUserVO(User user);
@@ -63,4 +65,10 @@ public interface UserService extends IService<User> {
 
 
     User getLoginUser(HttpServletRequest request);
+
+
+    /**
+     * 是否为管理员
+     */
+    boolean isAdmin(User user);
 }

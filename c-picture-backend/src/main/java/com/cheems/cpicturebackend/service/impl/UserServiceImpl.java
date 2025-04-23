@@ -201,7 +201,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     public User getLoginUser(HttpServletRequest request) {
         Object attribute = request.getSession().getAttribute(UserConstant.USER_LOGIN_STATE);
         User user = (User) attribute;
+        if(user == null){
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
         return user;
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+
+
+        return  user!=null && user.getUserRole().equals(UserRoleEnum.ADMIN.getValue());
     }
 
 
